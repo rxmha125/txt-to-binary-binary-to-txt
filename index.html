@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Binary Converter</title>
+    <style>
+        /* Universal Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+            position: relative;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover effect on the main container */
+        .container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        h1 {
+            font-size: 1.8em;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        /* Text Area */
+        .input-area {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Convert Button */
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 1em;
+            color: #fff;
+            background: #667eea;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background: #576bd3;
+        }
+
+        /* Output Display */
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f6fa;
+            border-radius: 10px;
+            font-size: 0.95em;
+            color: #555;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .output-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1em;
+            display: block;
+        }
+
+        /* Footer for credit */
+        footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                max-width: 90%;
+            }
+            button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text to Binary Converter</h1>
+
+        <!-- Input Area for Text -->
+        <div class="input-area">
+            <textarea id="inputText" rows="5" placeholder="Enter text here..."></textarea>
+        </div>
+
+        <!-- Convert Buttons -->
+        <button onclick="convertToBinary()">Convert Text to Binary</button>
+        <button onclick="convertToText()">Convert Binary to Text</button>
+
+        <!-- Output Display -->
+        <div class="output">
+            <span class="output-label">Output:</span>
+            <div id="outputResult"></div>
+        </div>
+    </div>
+
+    <!-- Footer for credit -->
+    <footer>This web made by Rx</footer>
+
+    <script>
+        // Function to convert text to binary
+        function convertToBinary() {
+            const text = document.getElementById("inputText").value;
+            let binaryResult = "";
+            for (let i = 0; i < text.length; i++) {
+                binaryResult += text[i].charCodeAt(0).toString(2).padStart(8, '0') + " ";
+            }
+            document.getElementById("outputResult").innerText = binaryResult.trim();
+        }
+
+        // Function to convert binary to text
+        function convertToText() {
+            const binaryInput = document.getElementById("inputText").value.trim();
+            const binaryArray = binaryInput.split(" ");
+            let textResult = "";
+
+            // Validate the binary input
+            const isValidBinary = binaryArray.every(bin => /^[01]{8}$/.test(bin));
+
+            if (isValidBinary) {
+                for (let i = 0; i < binaryArray.length; i++) {
+                    textResult += String.fromCharCode(parseInt(binaryArray[i], 2));
+                }
+                document.getElementById("outputResult").innerText = textResult;
+            } else {
+                document.getElementById("outputResult").innerText = "Invalid binary input. Please ensure each binary value is 8 bits long.";
+            }
+        }
+    </script>
+</body>
+</html>
